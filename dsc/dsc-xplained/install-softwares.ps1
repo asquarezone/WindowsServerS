@@ -1,10 +1,23 @@
+$config_data = @{
+    AllNodes = @(
+        @{
+            NodeName = 'qtdevserver01'
+        },
+        @{
+            NodeName = 'qt-dc1'
+        }
+
+    )
+
+}
+
 Configuration InstallUtilitiesSoftware {
     Import-DSCResource -ModuleName PSDesiredStateConfiguration -Name WindowsFeature
 
-    Node 'qtdevserver01'
+    Node $AllNodes.NodeName
     {
         # DSC Resources
-        WindowsFeature 'IISServer' 
+        WindowsFeature IISServer
         {
             Name = "Web-Server"
             Ensure = "Present"
@@ -12,4 +25,4 @@ Configuration InstallUtilitiesSoftware {
     }
 }
 
-InstallUtilitiesSoftware
+InstallUtilitiesSoftware -ConfigurationData $config_data
